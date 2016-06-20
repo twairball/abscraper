@@ -2,6 +2,14 @@ require "abscraper/version"
 require "watir-webdriver"
 require "mechanize"
 
+# watir extensions
+require 'watir/element_locator'
+
+# lib
+require 'abscraper/models'
+require 'abscraper/pages'
+
+
 module Abscraper
   class Abscraper
 
@@ -24,9 +32,3 @@ module Abscraper
   end
 end
 
-# watir extensions
-require 'watir/element_locator'
-
-# lib
-require 'abscraper/models'
-require 'abscraper/pages'
