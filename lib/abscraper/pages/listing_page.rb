@@ -59,6 +59,7 @@ class Abscraper::ListingPage
       # photos
       photos_attributes: photos
     }
+    return results
   end
 
 
