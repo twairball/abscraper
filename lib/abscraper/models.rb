@@ -1,0 +1,1 @@
+require 'abscraper/models/listing.rb'

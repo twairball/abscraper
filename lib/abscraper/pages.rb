@@ -1,0 +1,1 @@
+require 'abscraper/pages/listing_page.rb'
