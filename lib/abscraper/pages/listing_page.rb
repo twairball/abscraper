@@ -19,13 +19,24 @@ class Abscraper::ListingPage
     district = address_string.split(",")[0].strip
 
     # room_type we want as an enum
-    room_type_string = @page.css("#summary").css("div.col-sm-3")[4].text
-    room_type = room_type_string.downcase.include?("entire") ? 1 : 0
+    room_type_string = @page.css("#summary").css("div.col-sm-3")[3].text
 
-    # beds, bedrooms, home/apt, capacity
-    capacity = @page.css("#summary").css("div.col-sm-3")[5].text.split("Guests").first.chop
-    bedrooms = @page.css("#summary").css("div.col-sm-3")[6].text.split("Bedroom").first.chop
-    beds = @page.css("#summary").css("div.col-sm-3")[7].text.split("Bed").first.chop
+    if room_type_string.blank?
+      # room_type is probably entire home, shift by 1
+      room_type_string = @page.css("#summary").css("div.col-sm-3")[4].text
+      room_type = room_type_string.downcase.include?("entire") ? 1 : 0
+
+      capacity = @page.css("#summary").css("div.col-sm-3")[5].text.split("Guests").first.chop
+      bedrooms = @page.css("#summary").css("div.col-sm-3")[6].text.split("Bedroom").first.chop
+      beds = @page.css("#summary").css("div.col-sm-3")[7].text.split("Bed").first.chop
+    else
+      # room type is probably private room
+      room_type = room_type_string.downcase.include?("entire") ? 1 : 0
+      
+      capacity = @page.css("#summary").css("div.col-sm-3")[4].text.split("Guests").first.chop
+      bedrooms = 1  # private room
+      beds = @page.css("#summary").css("div.col-sm-3")[5].text.split("Bed").first.chop
+    end
 
     # get photos, will get top 5 or so only to reduce load
     # full photo gallery hidden behind a modal gallery
