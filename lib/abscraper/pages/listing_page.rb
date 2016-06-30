@@ -24,14 +24,14 @@ class Abscraper::ListingPage
     if room_type_string.blank?
       # room_type is probably entire home, shift by 1
       room_type_string = @page.css("#summary").css("div.col-sm-3")[4].text
-      room_type = room_type_string.downcase.include?("entire") ? 1 : 0
+      room_type = room_type_string.downcase.include?("entire") ? "entire_home" : "private_room"
 
       capacity = @page.css("#summary").css("div.col-sm-3")[5].text.split("Guests").first.chop
       bedrooms = @page.css("#summary").css("div.col-sm-3")[6].text.split("Bedroom").first.chop
       beds = @page.css("#summary").css("div.col-sm-3")[7].text.split("Bed").first.chop
     else
       # room type is probably private room
-      room_type = room_type_string.downcase.include?("entire") ? 1 : 0
+      room_type = room_type_string.downcase.include?("entire") ? "entire_home" : "private_room"
       
       capacity = @page.css("#summary").css("div.col-sm-3")[4].text.split("Guests").first.chop
       bedrooms = 1  # private room
@@ -52,7 +52,7 @@ class Abscraper::ListingPage
     # @listing = Abscraper::Listing.new(name: name, desc: desc, room_type: room_type, 
     #     capacity: capacity, bedrooms: bedrooms, beds: beds, photos: photos)
 
-    ## make results has
+    ## make results hash
     @results = {
       name: name,
       desc: desc,
@@ -62,10 +62,12 @@ class Abscraper::ListingPage
       district: district,
 
       # apt info
-      room_type: room_type,
-      capacity: capacity,
-      bedrooms: bedrooms,
-      beds: beds,
+      basic_infos: {
+        room_type: room_type,
+        capacity: capacity,
+        bedrooms: bedrooms,
+        beds: beds
+      }
 
       # photos
       photos_attributes: photos
