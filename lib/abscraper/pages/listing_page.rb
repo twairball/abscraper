@@ -21,7 +21,7 @@ class Abscraper::ListingPage
     # room_type we want as an enum
     room_type_string = @page.css("#summary").css("div.col-sm-3")[3].text
 
-    if room_type_string.blank?
+    if room_type_string.nil? || room_type_string.empty?
       # room_type is probably entire home, shift by 1
       room_type_string = @page.css("#summary").css("div.col-sm-3")[4].text
       room_type = room_type_string.downcase.include?("entire") ? "entire_home" : "private_room"
