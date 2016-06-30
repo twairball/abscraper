@@ -67,7 +67,7 @@ class Abscraper::ListingPage
         capacity: capacity,
         bedrooms: bedrooms,
         beds: beds
-      }
+      }, 
 
       # photos
       photos_attributes: photos
